@@ -23,6 +23,8 @@ const logger = winston.createLogger({
   format: winston.format.json(), // Store each logs in json format
   transports: [
     new winston.transports.Console({ format: winston.format.simple() }), // Define where your logs are saved. The Console transport outputs logs to the console, and File writes logs to combined.log.
-    new window.transports.File({ filename: "combined.log" }), // Write the generated log in combined.log
+    new winston.transports.File({ filename: "combined.log" }), // Write the generated log in combined.log
   ],
 });
+
+module.exports = logger;
