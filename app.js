@@ -1,12 +1,23 @@
 const express = require("express");
 require("dotenv").config;
 const morgan = require("morgan");
+const rfs = require("rotating-file-stream");
+
+// Create writable stream that logs file
+const accessLogStream = rfs.createStream("access.log", {
+  interval: "1d", // rotate daily
+  path: "./logs", // stores access.log in ./logs
+});
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Express middlewares
-app.use(morgan("dev"));
+app.use(
+  morgan("combined", {
+    stream: accessLogStream, // Pass http requests logs to accessLogStream
+  })
+);
 
 // Route handler
 app.get("/", (req, res) => {
